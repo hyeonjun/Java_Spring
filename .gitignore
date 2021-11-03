@@ -6,3 +6,6 @@ RemoteSystemsTempFiles/
 
 ### .metadata ###
 .metadata/
+
+### .recommenders ###
+.recommenders

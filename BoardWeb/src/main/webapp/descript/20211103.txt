@@ -1,0 +1,174 @@
+STS.exe : 스프링 프로젝트를 위한 전용 실행 파일
+
+1. 스프링은 라이브러리 관리를 기본적으로 Maven으로 관리하기 때문에 인터넷 연결은 필수.
+
+2. Maven : 스프링 프로젝트 진행 시 필요한 라이브러리 관리(버전)를 담당
+ -> pom.xml 문서 내에서 직접 작성
+
+3. 스프링은 기본적인 Java 버전을 초기에 셋팅하기 때문에 프로젝트 생성 후,
+   반드시 Java 버전 등을 수정해주어야 한다.
+
+4. 스프링 기본 프로젝트 생성 시,
+   Sprint Legacy -> Spring MVC project를 이용
+   기본 패키지 설정 : com.이니셜.~~~ 와 같이 패키지를 생성해야한다.
+
+===================================================
+
+프로젝트 생성
+File - New - Spring Legacy Project - 프로젝트명 입력 후 아래 Spring MVC Project 클릭 -> next -> 패키지 입력 -> Finish
+
+1. 기본 버전 설정
+   프로젝트명 -> 마우스 오른쪽 버튼 -> Properties 메뉴 선택
+   Project Facets 선택
+
+   가운데 화면
+   Dynamic Web Module(2.5) 체크
+   Java : 설치되어(사용할) 있는 버전 선택(1.8)
+     -> Apply
+
+   오른쪽 화면
+   Runtimes 탭 선택
+   톰캣 서버가 보이지 않을 경우, New 버튼 클릭 -> 맨 위의 Apache 내에서 Tomcat 버전 선택
+   -> 톰캣 설치 경로 지정 -> Apply
+
+   왼쪽 화면
+   Java Build Path에서 설정 내용 확인 -> 오른쪽 화면의 세번째 Library 탭 선택
+   톰캣, JRE 버전, Maven 확인 -> Apply -> OK
+
+=====================================================
+
+STS 마법사를 이용하여 프로젝트 생성 시 불필요한 폴더, 파일, 라이브러리까지 모두 생성
+및  로드가 되므로 정리가 필요함
+
+실제 코딩
+src/main/java
+src/main/resources (
+
+실제 코딩 전 테스트하는 폴더
+src/test/java
+src/test/resources
+
+Maven Dependencies : 라이브러리 관리
+
+src : jsp / html 파일들 위치 - front
+
+=====================================================
+
+라이브러리 설정 후, pom.xml 문서 오류 발생하는 경우
+1. pom.xml 내부를 다시 확인
+2. 라이브러리 설치 폴더 (~~/repository) 안의 다운로드된 모든 라이브러리 삭제
+   (단, STS 종료 후)
+3. STS를 다시 실행
+   (오른쪽 하단에 Builing 프로그래스가 모두 종료될 때까지 작업 중지)
+
+=====================================================
+
+1. 웹 브라우저의 웹 주소줄 : ~~~/~~~/hello.do 요청
+
+*** 여기부터 
+2. web.xml 문서 내의 <url-pattern>/hello.do</url-pattern> 확인
+3. <servlet-name>HelloServlet</servlet-name> 의 HelloServlet 추출
+4. <servlet> ~~ </servlet> 내의 <servlet-name>HelloServlet</servlet-name> 을 찾음
+5. <servlet-class>com.encore.biz.HelloServlet</servlet-class> 확인
+6. HelloServlet -> 초기화 -> 실행
+
+*** 여기까지 => servlet 컨테이너가 작업
+
+============================================================================
+
+의존성 주입(Dependency Injection)
+방법 : setter / constructor / Collection
+
+자바 빈(bean) 구조를 보유하는 클래스 선언
+1. 멤버(전역, 속성) 변수 : 반드시 private로 선언
+2. 반드시 생성자 선언 필요
+3. private 변숭 대한 setter / getter 메서드 public으로 존재
+   => setter / getter 생성 시, 마법사로 자동 생성
+
+=============================================================================
+
+Spring : VO(Value Object) / DTO(Data Transfer Object)
+		 DAO(Data Access Object) : DB 접근 / SQL 쿼리 / SQL 쿼리 실행 / 실행결과
+
+=============================================================================
+
+다형성 : interface
+은닉성 : private
+
+=============================================================================
+
+사전 환경 설정 작성
+1. applicationContext.xml 문서 생성		 
+
+겹합도 낮추는 방법
+1. 다형성
+
+2. 디자인패턴 사용(Factory 패턴)
+	- Factory 패턴 : 클라이언트에서 사용할 객체 생성을 캡슐화
+
+Factory 패턴 : BeansFactory
+
+=============================================================================
+
+ApplicationContext를 이용하여 만들어진 파생클래스들
+- GenericXmlApplicationContext : 파일 시스템, 클래스 경로에 있는 XML 설정 파일을 로딩하여 구동하는 컨테이너
+- abstractApplicationContext : getBean() 메서드를 이용하여 객체를 생성하고 로딩하는 방식
+- XmlWebApplicationContext : 웹 기반의 스프링 애플리케이션을 개발할 때 사용
+
+=============================================================================
+
+스프링 설정 파일 : "applicationContext.xml"
+1. 파일명은 임의로 해도 된다. 단, 영문으로 구성
+2. <beans ~스키마~></beans> : 루트 엘리먼트(루트 태그)
+2. <beans ~스키마~></beans> 내부에서 사용할 수 있는 태그 종류
+		<bean></bean> : 자바 빈 객체 등록
+		<description></description> : 설정 파일에 관련된 설정
+		<alias></alias> : DB 관련 설정
+		<import></import> : 외부 라이브러리(내의 클래스들) 설정 파일(~~.xml) 로딩
+
+<import> 태그
+예) context-resource.xml
+	<beans ~~>데이터베이스 관련</beans>
+	
+   context-transactin.xml
+   <beans ~~>트랜잭션 관련</beans>
+   
+applicationContext.xml
+<beans>
+	<import resource="context-resource.xml"></import>
+	<import resource="context-transactin.xml"></import>
+</beans>	
+
+<bean> 태그
+클래스를 등록하여 객체를 생성할 때 사용하는 태크
+id 속성 : class 속성으로 저장된 클래스의 객체 이름 설정
+class 속성 : 패키지.클래스명
+
+name 속성 : 특수기호가 포함된 객체명을 설정할 경우
+		  http://www.naver.com
+		  http://www.google.com
+
+init-method 속성 : 객체를 생성한 후, 초기값을 설정하는 메서드를 호출 해야 하는 경우 메서드명을 결정
+				 만약 설정하지 않으면 생성자를 호출
+
+destroy-method 속성 : 해당 객체가 소멸될 때, 호출할 메서드 설정
+
+lazy-init 속성 : <bean> 에 등록된 객체를 미리 생성하여 메모리에 로딩하지 말고, 클라이언트 요청이 있을 경우에만 객체 생성(true)
+
+scope 속성 : singleton 디자인 패턴
+			애플리케이션에서 단 하나의 객체만 생성되도록 함
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
