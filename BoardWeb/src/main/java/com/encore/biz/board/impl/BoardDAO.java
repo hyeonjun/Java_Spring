@@ -159,7 +159,7 @@ public class BoardDAO {
 			this.pstmt = this.conn.prepareStatement(BOARD_LIST);
 			this.rs = this.pstmt.executeQuery();
 			
-			if(this.rs.next()){
+			while(this.rs.next()){
 				BoardVO board = new BoardVO();
 				board.setSeq(this.rs.getInt("seq"));
 				board.setTitle(this.rs.getString("title"));

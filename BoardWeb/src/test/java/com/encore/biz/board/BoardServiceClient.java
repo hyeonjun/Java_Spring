@@ -17,18 +17,18 @@ public class BoardServiceClient {
 		BoardService boardService = (BoardService) container.getBean("boardService");
 		
 		// 3. 글 등록 테스트
-//		BoardVO vo = new BoardVO();
-//		vo.setTitle("임시 제목2");
-//		vo.setWriter("임지 작성자2");
-//		vo.setContent("임시 내용2");
+		BoardVO vo = new BoardVO();
+//		vo.setTitle("임시 제목4");
+//		vo.setWriter("임지 작성자4");
+//		vo.setContent("임시 내용4");
 //		boardService.insertBoard(vo);
 		
 		// 4. 글 목록 기능 테스트
-//		List<BoardVO> boardList = boardService.getBoardList(vo);
-//		int cnt = 0;
-//		for(BoardVO board : boardList){
-//			System.out.println("record "+cnt+" : "+board.toString());
-//		}
+		List<BoardVO> boardList = boardService.getBoardList(vo);
+		int cnt = 0;
+		for(BoardVO board : boardList){
+			System.out.println("record "+cnt+" : "+board.toString());
+		}
 		
 		// 5. 글 삭제
 //		BoardVO vo = new BoardVO();
@@ -43,10 +43,10 @@ public class BoardServiceClient {
 //		boardService.updatetBoard(vo);
 		
 		// 7. seq 번호를 이용한 상세보기
-		BoardVO vo = new BoardVO();
-		vo.setSeq(2);
-		vo = boardService.getBoard(vo);
-		System.out.println(vo.toString());
+//		BoardVO vo = new BoardVO();
+//		vo.setSeq(2);
+//		vo = boardService.getBoard(vo);
+//		System.out.println(vo.toString());
 		
 		// 8. cnt 필드 증가
 		
