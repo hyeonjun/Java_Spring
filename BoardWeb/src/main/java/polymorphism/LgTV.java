@@ -1,6 +1,14 @@
 package polymorphism;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+
+@Component("lg")
 public class LgTV implements TV{
+	@Autowired // setter를 굳이 만들지 않아도 사용할 수 있음
+	@Qualifier("apple")
+	private Speaker speaker;
 
 	public LgTV() {
 		System.out.println("==> LgTV 객체 생성");
@@ -29,13 +37,15 @@ public class LgTV implements TV{
 	@Override
 	public void volumeUp() {
 		// TODO Auto-generated method stub
-		System.out.println("엘지TV 소리 올림");
+//		System.out.println("엘지TV 소리 올림");
+		speaker.volumeUp();
 	}
 
 	@Override
 	public void volumeDown() {
 		// TODO Auto-generated method stub
-		System.out.println("엘지TV 소리 내림");
+//		System.out.println("엘지TV 소리 내림");
+		speaker.volumeDown();
 	}
 	
 

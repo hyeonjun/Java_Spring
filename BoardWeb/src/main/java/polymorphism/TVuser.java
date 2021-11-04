@@ -10,9 +10,9 @@ public class TVuser {
 		AbstractApplicationContext factory = new GenericXmlApplicationContext("applicationContext.xml");
 		
 		// 2. Spring 컨테이너로부터 필요한 객체 요청(Lookup)
-		TV tv1 = (TV)factory.getBean("tv");
-		TV tv2 = (TV)factory.getBean("tv");
-		TV tv3 = (TV)factory.getBean("tv"); 
+		TV tv = (TV)factory.getBean("lg");
+//		TV tv2 = (TV)factory.getBean("tv");
+//		TV tv3 = (TV)factory.getBean("tv"); 
 		// singtone으면 3개를 생성해도 객체 생성은 하나밖에 안댐
 		// prototype으로 하면 다 생성됨
 		
@@ -20,10 +20,10 @@ public class TVuser {
 		TV tv = (TV) bean.getBean(args[0]); */
 		
 		
-	  /*tv.powerOn();
+	    tv.powerOn();
 		tv.volumeUp();
 		tv.volumeDown();
-		tv.powerOff();*/
+		tv.powerOff();
 		
 		// 3. Spring 컨테이너 종료(자원 해제)
 		factory.close();

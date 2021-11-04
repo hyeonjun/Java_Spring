@@ -1,7 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-
-	<bean id="tv" class="polymorphism.LgTV" init-method="initMethod" destroy-method="destroyMethod" lazy-init="true" scope="prototype"></bean>
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+	
+	<context:component-scan base-package="com.encore.biz"></context:component-scan>
+	
+	
+	
 </beans>
+
+<!-- <bean id="tv" class="polymorphism.SamsungTV">
+		<property name="speaker" ref="apple"></property>
+		<property name="price" value="2700000"></property>
+	</bean> -->
+    <!-- <bean id="tv" class="polymorphism.SamsungTV">
+		<constructor-arg index="0" ref="apple"></constructor-arg>
+		<constructor-arg index="1" value="2700000"></constructor-arg>
+	</bean> -->
+	<!-- <bean id="tv" class="polymorphism.SamsungTV" p:speaker-ref="sony" p:price="23232323" />
+	<bean id="sony" class="polymorphism.SonySpeaker"></bean>
+	<bean id="apple" class="polymorphism.AppleSpeaker"></bean> -->
+	
+	<!-- List -->
+	<!-- 	<bean id="collectionBean" class="com.collect.mapping.CollectionBean">
+		<property name="addressList">
+			<list>
+				<value>서울 시 강남구 역상동</value>
+				<value>서울 시 성동구 행당동</value>
+			</list>
+		</property>
+	</bean> -->
+	
+	<!-- Set -->
+	<!-- <bean id="collectionBean" class="com.collect.mapping.CollectionBean">
+		<property name="addressList">
+			<set value-type="java.lang.String">
+				<value>서울 시 강남구 역상동</value>
+				<value>서울 시 성동구 행당동</value>
+			</set>
+		</property>
+	</bean> -->
+	
+	
+	<!-- Map -->
+	<!--<bean id="collectionBean" class="com.collect.mapping.CollectionBean">
+		<property name="addressList">
+			<map>
+				<entry>
+					<key><value>홍길동</value></key>
+					<value>서울 서초 서초</value>
+				</entry>
+				<entry>
+					<key><value>이순신</value></key>
+					<value>서울 강남 역삼</value>
+				</entry>
+			</map>
+		</property>
+	</bean> -->
+	
+	
+	<!-- <bean id="collectionBean" class="com.collect.mapping.CollectionBean">
+		<property name="addressList">
+			<props>
+				<prop key="홍길동">강남 역삼</prop>
+				<prop key="홍길동2">강남2 역2삼</prop>
+			</props>
+		</property>
+	</bean> -->
+	
+	<!-- <context:component-scan base-package="polymorphism"></context:component-scan>
+	<bean class="polymorphism.AppleSpeaker"></bean> -->

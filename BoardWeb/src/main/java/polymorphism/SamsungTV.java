@@ -1,15 +1,51 @@
 package polymorphism;
 
+import org.springframework.stereotype.Component;
+
+@Component("samsung")
 public class SamsungTV implements TV{
+	private Speaker speaker;
+	private int price;
 
 	public SamsungTV() {
-		System.out.println("==> 伙己TV 按眉 积己 <==");
+		System.out.println("==> 伙己TV 按眉 积己 (default) <==");
 	}
+	
+/*	// DI 吝 Constructor Injection
+	public SamsungTV(Speaker speaker) {
+		System.out.println("==> 伙己TV 按眉 积己 (overloading) <==");
+		this.speaker = speaker;
+	}
+	
+	public SamsungTV(Speaker speaker, int price) {
+		System.out.println("==> 伙己TV 按眉 积己 (overloading2 促吝 概俺 函荐) <==");
+		this.speaker = speaker;
+		this.price = price;
+	}*/
+	
+	public Speaker getSpeaker() {
+		return speaker;
+	}
+
+	// DI 吝 Setter Injection(扁夯 积己磊 鞘夸)
+	public void setSpeaker(Speaker speaker) {
+		System.out.println("==> setSpeaker() 龋免");
+		this.speaker = speaker;
+	}
+	
+	public int getPrice() {
+		return price;
+	}
+
+	public void setPrice(int price) {
+		System.out.println("==> setPrice() 龋免");
+		this.price = price;
+	}	
 
 	@Override
 	public void powerOn() {
 		// TODO Auto-generated method stub
-		System.out.println("伙己TV 傈盔 难咙");
+		System.out.println("伙己TV 傈盔 难咙 (啊拜 : "+ price + ")");
 	}
 
 	@Override
@@ -21,12 +57,16 @@ public class SamsungTV implements TV{
 	@Override
 	public void volumeUp() {
 		// TODO Auto-generated method stub
-		System.out.println("伙己TV 家府 棵覆");
+//		System.out.println("伙己TV 家府 棵覆");
+//		speaker = new SonySpeaker();
+		speaker.volumeUp();
 	}
 
 	@Override
 	public void volumeDown() {
 		// TODO Auto-generated method stub
-		System.out.println("伙己TV 家府 郴覆");
+//		System.out.println("伙己TV 家府 郴覆");
+//		speaker = new SonySpeaker();
+	    speaker.volumeDown();
 	}
 }
