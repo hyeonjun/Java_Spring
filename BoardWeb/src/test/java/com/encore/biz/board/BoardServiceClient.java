@@ -18,10 +18,10 @@ public class BoardServiceClient {
 		
 		// 3. 글 등록 테스트
 		BoardVO vo = new BoardVO();
-//		vo.setTitle("임시 제목4");
-//		vo.setWriter("임지 작성자4");
-//		vo.setContent("임시 내용4");
-//		boardService.insertBoard(vo);
+		/* vo.setTitle("임시 제목4");
+		vo.setWriter("임지 작성자4");
+		vo.setContent("임시 내용4");
+		boardService.insertBoard(vo);*/
 		
 		// 4. 글 목록 기능 테스트
 		List<BoardVO> boardList = boardService.getBoardList(vo);

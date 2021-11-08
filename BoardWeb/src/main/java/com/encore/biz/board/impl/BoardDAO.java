@@ -171,7 +171,7 @@ public class BoardDAO {
 			}
 			
 		} catch (Exception e) {
-			System.out.println("getBoard() ERR => "+e.getMessage());
+			System.out.println("getBoardList() ERR => "+e.getMessage());
 		} finally {
 			JDBCUtil.close(this.rs, this.pstmt, this.conn);
 		}

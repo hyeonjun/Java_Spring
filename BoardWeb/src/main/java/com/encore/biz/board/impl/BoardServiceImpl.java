@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.encore.biz.board.BoardService;
 import com.encore.biz.board.BoardVO;
+import com.encore.biz.common.LogAdvice;
 
 @Service("boardService")
 public class BoardServiceImpl implements BoardService {
@@ -17,6 +18,7 @@ public class BoardServiceImpl implements BoardService {
 	 */
 	@Autowired
 	private BoardDAO boardDAO;
+	private LogAdvice log;
 
 	public BoardServiceImpl() {
 		System.out.println("===> BoardSericeImpl() 객체 생성");
@@ -24,6 +26,9 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public void insertBoard(BoardVO vo) {
+/*		if (vo.getSeq() == 0){ // AfterThrow 확인용
+			throw new IllegalArgumentException("0번 글은 등록할 수 없습니다.");  
+		}*/
 		this.boardDAO.insertBoard(vo);
 	}
 
