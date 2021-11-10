@@ -1,8 +1,0 @@
-비즈니스 컴포넌트 : UserService
-
-UserVO : 사용자가 입력한 회원 관련 데이터 / 데이터베이스에서 추출된 회원 관련 데이터
-UserDAO : UserVO 객체 데이터를 이용하여 데이터베이스에서 회원 데이터를 추출 / 결과를 UserVO로 반환 (List<UserVO>)
-
-UserService (interface)
-UserServiceImpl (implements UserService)
-
