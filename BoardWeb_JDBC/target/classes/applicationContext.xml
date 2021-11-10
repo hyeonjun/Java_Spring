@@ -20,10 +20,13 @@
 		<property name="password" value="${jdbc.password}"></property>
 	</bean>
 	
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>	
 	
 </beans>
 
-	<!-- annotation aop -->
+<!-- annotation aop -->
 	<!-- <aop:aspectj-autoproxy></aop:aspectj-autoproxy> -->
 	
 	<!-- Spring JDBC Config 1 -->

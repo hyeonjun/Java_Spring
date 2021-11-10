@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.encore.biz.board.BoardService;
 import com.encore.biz.board.BoardVO;
-import com.encore.biz.common.LogAdvice;
 
 @Service("boardService")
 public class BoardServiceImpl implements BoardService {
@@ -17,8 +16,9 @@ public class BoardServiceImpl implements BoardService {
 	 *	public class BoardDAO <= 林涝(@Autowired)
 	 */
 	@Autowired
-	private BoardDAO boardDAO;
-	private LogAdvice log;
+	private BoardDAOSpring boardDAO;
+//	private BoardDAO boardDAO;
+
 
 	public BoardServiceImpl() {
 		System.out.println("===> BoardSericeImpl() 按眉 积己");
@@ -44,8 +44,8 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public BoardVO getBoard(BoardVO vo) {
-		vo = this.boardDAO.getBoard(vo);
-		this.boardDAO.updateCnt(vo);
+//		vo = this.boardDAO.getBoard(vo);
+//		this.boardDAO.updateCnt(vo);
 		return this.boardDAO.getBoard(vo);
 	}
 
