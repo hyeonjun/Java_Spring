@@ -23,7 +23,16 @@ public class MemberServiceImpl implements MemberService{
 
 	@Override
 	public boolean userJoin(MemberVO vo) {
-		return this.memberDAO.userJoin(vo);
+		boolean result = this.memberDAO.userJoin(vo);
+		MemberVO mem = this.memberDAO.getUserOne(vo);
+		this.memberDAO.insertIntroduce(mem);
+		return result;
+	}
+
+	@Override
+	public MemberVO getUserOne(int seq) {
+		// TODO Auto-generated method stub
+		return this.memberDAO.getUserOne(seq);
 	}
 
 }

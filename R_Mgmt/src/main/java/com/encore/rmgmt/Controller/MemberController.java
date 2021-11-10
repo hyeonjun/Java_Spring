@@ -5,9 +5,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-@Controller("/home")
+@Controller("/Member")
 @RequestMapping("home/*") // URL view라는 요청이 들어오면 ViewController 실행 
-public class ViewController {
+public class MemberController {
+	
+	@RequestMapping("/resume")
+	public ModelAndView home(){
+		ModelAndView mv = new ModelAndView();
+		return mv;
+	}
 	
 	@RequestMapping(value="/home/login", method=RequestMethod.GET)
 	public ModelAndView signIn(){ // URL view/home 이라는 요청이 오면 home() 실행

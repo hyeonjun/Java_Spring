@@ -1,15 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
+<%@ include file="../common/common.jsp" %>
+<!-- <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>회원가입 화면 샘플 - Bootstrap</title>
-	<!-- Bootstrap CSS -->
+	<title>회원가입</title>
+	Bootstrap CSS
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
 	<style>
 		.input-form {
 			max-width: 680px;
@@ -144,6 +145,11 @@
 	</script>
 </head>
 <body onload="init()">
+	<%@ include file="../common/header.jsp" %>
+	<% if(session.getAttribute("user") != null){
+			response.sendRedirect("/introduce/write");
+		}
+	%>
 	<div class="container">
 		<div class="input-form-backgroud row">
 			<div class="input-form col-md-12 mx-auto">
@@ -175,7 +181,7 @@
 						<input type="text" class="form-control" id="phone" name="phone" placeholder="010-1234-1234" maxlength="13" required="required">
 					</div>
 					<div class="mb-4">
-						<input type="button" class="btn btn-primary btn-lg btn-block" id="validation" onclick="signUpValidation()" value="">
+						<input type="button" class="btn btn-primary btn-lg btn-block" id="validation" onclick="signUpValidation()">
 					</div>
 				</form>
 			</div>
