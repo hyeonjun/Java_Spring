@@ -33,7 +33,6 @@ public class IntroduceServiceImpl implements IntroduceService {
 	@Override
 	public void updateIntroduce(IntroduceVO vo) {
 //		boolean result = false;
-		System.out.println("===> in UpdateIntroduce : "+vo.toString());
 		this.introduceDAO.updateIntroduce(vo);
 //		return result;
 	}

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import com.encore.rmgmt.Service.IntroduceVO;
 import com.encore.rmgmt.Service.MemberVO;
+import com.encore.rmgmt.Service.ProjectVO;
 
 @Repository("memberDAO")
 public class MemberDAO {
@@ -19,7 +20,7 @@ public class MemberDAO {
 	private final String MEMBER_GET_SEQ = "select * from r_member where seq=?";
 	private final String MEMBER_INSERT = "insert into r_member values (r_seq.nextval, ?, ?, ?, ?, ?, 2)";
 	private final String INTRODUCE_INSERT = "insert into r_introduce values (?, ?, ?, ?, ?, ?)";
-
+	
 	public MemberDAO() {
 		// TODO Auto-generated constructor stub
 		System.out.println("===> memberDAO °´Ã¼ »ý¼º");
@@ -117,6 +118,5 @@ public class MemberDAO {
 			JDBCUtil.close(this.pstmt, this.conn);
 		}
 	} // insertIntroduce
-	
 
 }

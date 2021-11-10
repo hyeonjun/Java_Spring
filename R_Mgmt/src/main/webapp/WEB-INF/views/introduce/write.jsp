@@ -1,17 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="com.encore.rmgmt.Service.IntroduceVO" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<% if((String) session.getAttribute("user") == null){
+		response.sendRedirect("/home/login");
+	} 
+%>
 <%@ include file="../common/common.jsp" %>
-<!-- <!DOCTYPE html>
-<html>
-<head>
-	<meta charset="UTF-8">
-	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-	jQuery
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-	Bootstrap CSS
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
-	<title>자기소개 작성</title> -->
 	<script>
 		function init(){
 			$.ajax({
@@ -47,7 +41,7 @@
 					title : $("#title").val(),
 					blog : $("#blog").val(),
 					github : $("#git").val(),
-					writing : $("#content").val(),
+					writing : $("#content").val().replaceAll('\n', '<br />'),
 					picture : "pinture",
 					/*$("#select_image").attr("src")*/
 				},
@@ -55,11 +49,24 @@
 					if(!data){
 						swal("등록 실패");
 					} else {
-						swal("등록 완료");
+						/* swal("등록 완료"); */
+						swal({
+							title:"등록완료",
+							text:"메인화면으로 이동합니다.",
+							icon:"success",
+							closeOnClickOutside:false,
+							buttons:{
+								confirm:{
+									text:"메인 화면으로",
+									value:true
+								}
+							}
+						}).then(function(){
+							location.href="/home/resume";
+						});
 					}
 				}
 			});
-			
 		}
 		
 	</script>
@@ -105,7 +112,7 @@
 			</form>
 			<div>
 				<input type="button" class="btn btn-sm btn-primary" onclick="introduceSave()" value="저장"/>
-				<input type="button" class="btn btn-sm btn-primary" onclick="javascript:location.href='/'" value="뒤로"/>
+				<input type="button" class="btn btn-sm btn-primary" onclick="javascript:location.href='/home/resume'" value="뒤로"/>
 				<!-- <button type="button" class="btn btn-sm btn-primary" id="btnList">목록</button> -->
 			</div>
 		</div>

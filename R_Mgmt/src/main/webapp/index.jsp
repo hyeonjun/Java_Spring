@@ -9,7 +9,7 @@
 	<% if(session.getAttribute("user") == null){
 			response.sendRedirect("/home/login");
 		} else{
-			response.sendRedirect("/introduce/write");
+			response.sendRedirect("/home/resume");
 		}
 	%>
 

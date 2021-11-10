@@ -2,6 +2,7 @@ package com.encore.rmgmt.Controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,6 +20,8 @@ import com.encore.rmgmt.Service.IntroduceService;
 import com.encore.rmgmt.Service.IntroduceVO;
 import com.encore.rmgmt.Service.MemberService;
 import com.encore.rmgmt.Service.MemberVO;
+import com.encore.rmgmt.Service.ProjectService;
+import com.encore.rmgmt.Service.ProjectVO;
 
 @Controller("/jquery")
 @RequestMapping("jquery/*")
@@ -28,6 +32,9 @@ public class JqueryController {
 	
 	@Autowired
 	IntroduceService introService;
+
+	@Autowired
+	ProjectService projectService;
 	
 	@Resource(name="uploadPath")
 	private String uploadPath;
@@ -122,13 +129,58 @@ public class JqueryController {
 	public IntroduceVO introGet(String seq){
 		return introService.getIntroduce(Integer.parseInt(seq));
 	}
+
+	// ===================================================================
 	
+	@RequestMapping(value="jquery/projectList", method=RequestMethod.GET)
+	@ResponseBody
+	public List<ProjectVO> projectList(String seq, int role){
+		ProjectVO vo = new ProjectVO();
+		vo.setSeq(Integer.parseInt(seq));
+		vo.setRole(role);
+		return projectService.getProjectList(vo);
+	}
 	
+	@RequestMapping(value="jquery/projectGet", method=RequestMethod.GET)
+	@ResponseBody
+	public ProjectVO projectGet(String seq, String pSeq){
+		ProjectVO vo = new ProjectVO();
+		vo.setSeq(Integer.parseInt(seq));
+		vo.setpSeq(Integer.parseInt(pSeq));
+		return projectService.getProject(vo);
+	}
 	
+	@RequestMapping(value="jquery/projectInsert", method=RequestMethod.POST)
+	@ResponseBody
+	public boolean projectInsert(ProjectVO vo){
+		boolean result = false;
+		result = projectService.insertProject(vo);
+		return result;
+	}
 	
+	@RequestMapping(value="jquery/projectUpdate", method=RequestMethod.POST)
+	@ResponseBody
+	public boolean projectUpdate(ProjectVO vo){
+		boolean result = false;
+		result = projectService.updateProject(vo);
+		return result;
+	}
 	
+	@RequestMapping(value="jquery/projectDelete", method=RequestMethod.GET)
+	public String projectDelete(@RequestParam(value="pSeq") String pSeq, HttpSession session){
+		ProjectVO vo = new ProjectVO();
+		vo.setSeq((int) session.getAttribute("seq"));
+		vo.setpSeq(Integer.parseInt(pSeq));
+		projectService.deleteProject(vo);
+		return "/home/resume";
+	}
 	
-	
+/*	@RequestMapping("jquery/logout")
+	public String logout(HttpSession session){
+		session.removeAttribute("user");
+		session.removeAttribute("seq");
+		return "/home/login";
+	}*/
 	
 	
 	

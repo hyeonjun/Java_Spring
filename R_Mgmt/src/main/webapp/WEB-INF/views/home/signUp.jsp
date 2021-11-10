@@ -67,11 +67,11 @@
 									value:true
 								}
 							}
-						}).then((result) => {
+						}).then(result){
 							if(result){
 								location.href="/home/login";
 							}
-						});
+						}
 					} else {
 						swal("가입이 불가능합니다.");
 						return false;
