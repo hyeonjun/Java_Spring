@@ -167,20 +167,18 @@ public class JqueryController {
 	}
 	
 	@RequestMapping(value="jquery/projectDelete", method=RequestMethod.GET)
-	public String projectDelete(@RequestParam(value="pSeq") String pSeq, HttpSession session){
+	@ResponseBody
+	public boolean projectDelete(String seq, String pSeq){
+		boolean result = false;
+		System.out.println(seq+", "+pSeq);
 		ProjectVO vo = new ProjectVO();
-		vo.setSeq((int) session.getAttribute("seq"));
+		vo.setSeq(Integer.parseInt(seq));
 		vo.setpSeq(Integer.parseInt(pSeq));
-		projectService.deleteProject(vo);
-		return "/home/resume";
+		result = projectService.deleteProject(vo);
+		System.out.println(result);
+		return result;
 	}
-	
-/*	@RequestMapping("jquery/logout")
-	public String logout(HttpSession session){
-		session.removeAttribute("user");
-		session.removeAttribute("seq");
-		return "/home/login";
-	}*/
+
 	
 	
 	

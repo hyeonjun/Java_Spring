@@ -19,10 +19,10 @@
 					$("#title").attr('value',data.title);
 					$("#start").attr('value',data.startDate);
 					$("#end").attr('value',data.endDate);
-					$("#content").html(data.content);
+					$("#content").html(data.content.replaceAll('<br />', '\n'));
 					$("#skill").attr('value',data.skill);
-					$("#issue").html(data.issue);
-					$("#result").html(data.result);
+					$("#issue").html(data.issue.replaceAll('<br />', '\n'));
+					$("#result").html(data.result.replaceAll('<br />', '\n'));
 					$("#path").attr('value',data.github);
 				}
 			});
@@ -38,10 +38,10 @@
 					title: $('#title').val(),
 					startDate: $('#start').val(),
 					endDate: $('#end').val(),
-					content: $('#content').val(),
+					content: $('#content').val().replaceAll('\n', '<br />'),
 					skill: $('#skill').val(),
-					issue: $('#issue').val(),
-					result: $('#result').val(),
+					issue: $('#issue').val().replaceAll('\n', '<br />'),
+					result: $('#result').val().replaceAll('\n', '<br />'),
 					github: $('#path').val(),
 					pictures: "pictures",
 				},

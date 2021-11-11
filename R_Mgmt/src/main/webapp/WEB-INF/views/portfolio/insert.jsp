@@ -16,10 +16,10 @@
 					title: $('#title').val(),
 					startDate: $('#start').val(),
 					endDate: $('#end').val(),
-					content: $('#content').val(),
+					content: $('#content').val().replaceAll('\n', '<br />'),
 					skill: $('#skill').val(),
-					issue: $('#issue').val(),
-					result: $('#result').val(),
+					issue: $('#issue').val().replaceAll('\n', '<br />'),
+					result: $('#result').val().replaceAll('\n', '<br />'),
 					github: $('#path').val(),
 					pictures: "pictures",
 				},
@@ -70,28 +70,28 @@
 					<input type="text" class="form-control" name="title" id="title" placeholder="제목을 입력해 주세요">
 				</div>
 				<div class="mb-3">
-					<label for="blog">Progress.</label> 
+					<label for="start">Progress.</label> 
 					<input type="text" class="form-control" name="start" id="start" placeholder="Start Date(2021-11)" style="margin-bottom:10px">
 					<input type="text" class="form-control" name="end" id="end" placeholder="End Date(2021-11)">
 				</div>
 				<div class="mb-3">
-					<label for="blog">Content.</label> 
-					<input type="text" class="form-control" name="content" id="content" placeholder="주요 내용">
+					<label for="content">Content.</label> 
+					<textarea class="form-control" rows="5" name="content" id="content" placeholder="주요 내용"></textarea>
 				</div>
 				<div class="mb-3">
-					<label for="blog">Skill.</label> 
+					<label for="skill">Skill.</label> 
 					<input type="text" class="form-control" name="skill" id="skill" placeholder="사용한 Skill 또는 지식">
 				</div>
 				<div class="mb-3">
-					<label for="content">Issue.</label>
+					<label for="issue">Issue.</label>
 					<textarea class="form-control" rows="5" name="issue" id="issue" placeholder="경험했던 기술적 이슈와 해결한 방법"></textarea>
 				</div>
 				<div class="mb-3">
-					<label for="content">Result.</label>
+					<label for="result">Result.</label>
 					<textarea class="form-control" rows="5" name="result" id="result" placeholder="결과 또는 성과"></textarea>
 				</div>
 				<div class="mb-3">
-					<label for="content">GitHub/Blog.</label>
+					<label for="path">GitHub/Blog.</label>
 					<input type="text" class="form-control" name="path" id="path" placeholder="프로젝트 관련 깃허브나 블로그 주소">
 				</div>
 				<div class="inputArea">

@@ -25,19 +25,23 @@
 					seq : '<%= session.getAttribute("seq") %>'
 				},
 				success:function(data){
+					console.log(data);
 					$('#title').html(data.title);
 					$('#name').html(data.name);
 					$('#phone').html(data.phone);
 					$('#email').html(data.email);
 					$('#github').html(data.github);
 					$('#blog').html(data.blog);
-					$('#content').html(data.writing+"<br />");
+					if(data.wiring == null){
+						$('#content').html("글을 작성해주세요.");
+					} else {
+						$('#content').html(data.writing+"<br />");
+					}
 				}
 			});
 		}
 		
 		function ProjectP(){
-			console.log("P");
 			$.ajax({
 				type:"GET",
 				url:"/jquery/projectList",
@@ -67,10 +71,8 @@
 						tag += "<tr><th>Github/Blog : </th>";
 						tag += "<th>"+data[i].github+"</th></tr>";
 						tag += "</table><div style='float:right'>";
-						tag += "<a id='projectTupdate' style='margin-right:5px;' href='/portfolio/update?pSeq="+data[i].pSeq+"'>";
-						tag += "<label style='cursor:pointer; text-decoration:underline; text-underline-position:under;'>수정</label></a>";
-						tag += "<a id='projectTdelete' href='javascript:ProjectDelete("+data[i].pSeq+");'>";
-						tag += "<label style='cursor:pointer; text-decoration:underline; text-underline-position:under;'>삭제</label></a></div>";
+						tag += "<a id='projectPupdate' style='margin-right:5px;' href='/portfolio/update?pSeq="+data[i].pSeq+"'>수정</a>";
+						tag += "<a id='projectPdelete' href='javascript:ProjectDelete("+data[i].pSeq+");'>삭제</a></div><br />";
 					}
 					project_P.innerHTML = tag;
 				}
@@ -78,7 +80,6 @@
 		}
 		
 		function ProjectT(){
-			console.log("T");
 			$.ajax({
 				type:"GET",
 				url:"/jquery/projectList",
@@ -87,7 +88,6 @@
 					role : 2
 				},
 				success:function(data){
-					console.log(data);
 					// input hidden -> data.pSeq
 					var tag = "";
 					for (var i=0; i<data.length; i++){
@@ -106,10 +106,8 @@
 						tag += "<tr><th>Github/Blog : </th>";
 						tag += "<th>"+data[i].github+"</th></tr>";
 						tag += "</table><div style='float:right'>";
-						tag += "<a id='projectTupdate' style='margin-right:5px;' href='/portfolio/update?pSeq="+data[i].pSeq+"'>";
-						tag += "<label style='cursor:pointer; text-decoration:underline; text-underline-position:under;'>수정</label></a>";
-						tag += "<a id='projectTdelete' href='javascript:ProjectDelete("+data[i].pSeq+");'>";
-						tag += "<label style='cursor:pointer; text-decoration:underline; text-underline-position:under;'>삭제</label></a></div>";
+						tag += "<a id='projectTupdate' style='margin-right:5px;' href='/portfolio/update?pSeq="+data[i].pSeq+"'>수정</a>";
+						tag += "<a id='projectTdelete' href='javascript:ProjectDelete("+data[i].pSeq+");'>삭제</a></div><br />";
 					}
 					project_T.innerHTML = tag;
 				}
@@ -117,8 +115,53 @@
 		}
 		
 		function ProjectDelete(pSeq){
-			console.log(pSeq);
 			/* "/jquery/projectDelete?pSeq="+pSeq */
+			swal({
+				title:"프로젝트 삭제",
+				text:"해당 프로젝트를 삭제하시겠습니까?",
+				icon:"warning",
+				closeOnClickOutside:false,
+				buttons:{
+					confirm:{
+						text:"Yes",
+						value:true
+					},
+					cancle:{
+						text:"No",
+						value:false
+					}
+				}
+			}).then(function(data){
+				if(data){
+					$.ajax({
+						type:"GET",
+						url:"/jquery/projectDelete",
+						data:{
+							seq : <%= session.getAttribute("seq") %>,
+							pSeq : pSeq
+						},
+						success:function(data){
+							console.log(data)
+							if(!data){
+								swal("삭제 실패");
+							} else{
+								<%-- <% response.sendRedirect("/home/resume"); %> --%>
+								swal("삭제 완료", "프로젝트 삭제가 완료되었습니다.", "success",{
+									closeOnClickOutside:false,
+									buttons:{
+										confirm:{
+											text:"확인",
+											value:true
+										}
+									}
+								}).then(function(){
+									location.reload();
+								});
+							} 
+						}
+					});
+				}
+			})
 		}
 	</script>
 	<style>
@@ -126,30 +169,82 @@
 			margin:0 auto;
 			width:1000px;
 		}
-		
+				
 		#intro {
 			margin-bottom:20px;
 		}
-		
+				
 		#introduce {
 			border-collapse: collapse;
 			border-spacing: 10px;
 			align: center;
 		}
-		
+				
 		#title {
 			text-align:left;
 			margin-bottom:20px;
 		}
-		
+				
 		#introUpdate {
 			float:right;
+			color:#fff;
+			background-color:#007bff;
+			border-radius:0.25rem;
+			border:0;
+			padding:0.5rem 1rem;
 		}
-		
+				
+		#projectPinsert {
+			color:#fff;
+			background-color:#007bff;
+			border-radius:0.25rem;
+			border:0;
+			padding:0.5rem 1rem;
+		}
+				
+		#projectTinsert {
+			color:#fff;
+			background-color:#007bff;
+			border-radius:0.25rem;
+			border:0;
+			padding:0.5rem 1rem;
+		}
+				
 		#content {
 			font-size:1rem;
 		}
 		
+		#projectPupdate {
+			color:#fff;
+			background-color:#007bff;
+			border-radius:0.25rem;
+			border:0;
+			padding:0.5rem 1rem;
+		}
+		
+		#projectPdelete {
+			color:#fff;
+			background-color:#007bff;
+			border-radius:0.25rem;
+			border:0;
+			padding:0.5rem 1rem;
+		}
+		
+		#projectTupdate {
+			color:#fff;
+			background-color:#007bff;
+			border-radius:0.25rem;
+			border:0;
+			padding:0.5rem 1rem;
+		}
+		
+		#projectTdelete {
+			color:#fff;
+			background-color:#007bff;
+			border-radius:0.25rem;
+			border:0;
+			padding:0.5rem 1rem;
+		}	
 	</style>
 	
 </head>
@@ -158,7 +253,7 @@
 	<div id="intro">
 		<div>
 			<h1 id="title"></h1>
-			<table id="introduce" border="1">
+			<table id="introduce">
 				<tr>
 					<th>Name. </th>
 					<th id="name"></th>
@@ -188,19 +283,20 @@
 				</tr>
 			</table>
 		</div>
-		<a id="introUpdate" href="/introduce/write"><label style="cursor:pointer; text-decoration:underline; text-underline-position:under;">수정</label></a>
+		<a id="introUpdate" href="/introduce/write">수정</a>
 	</div>
 	<br /><hr />
 	<div id="project_p">
 		<h1 id="title">개인 프로젝트</h1>
-		<a id="projectPinsert" href="/portfolio/insert?role=1"><label style="cursor:pointer; text-decoration:underline; text-underline-position:under;">추가</label></a>
+		<a id="projectPinsert" href="/portfolio/insert?role=1">추가</a><br /><br />
 		<div id="tbl_Pdiv"></div>
 	</div>
 	<br /><hr />
 	<div id="project_t">
 		<h1 id="title">팀 프로젝트</h1>
-		<a id="projectTinsert" href="/portfolio/insert?role=2"><label style="cursor:pointer; text-decoration:underline; text-underline-position:under;">추가</label></a>
+		<a id="projectTinsert" href="/portfolio/insert?role=2">추가</a><br /><br />
 		<div id="tbl_Tdiv"></div>
 	</div>
+	<br /><br />
 </body>
 </html>

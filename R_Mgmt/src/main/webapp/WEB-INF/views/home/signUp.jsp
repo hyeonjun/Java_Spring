@@ -1,16 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="../common/common.jsp" %>
-<!-- <!DOCTYPE html>
-<html>
-<head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>회원가입</title>
-	Bootstrap CSS
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
 	<style>
 		.input-form {
 			max-width: 680px;
@@ -22,7 +11,7 @@
 			border-radius: 10px;
 			-webkit-box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15);
 			-moz-box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15);
-			box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15)
+			box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15);
 		}
 		.id-input {
 			width:50%;
@@ -34,7 +23,6 @@
 			width:75%;
 		}
 	</style>
-
 	<script>
 		var IdCheck = false;
 		
@@ -55,7 +43,6 @@
 				},
 				success:function(data){
 					if(data){
-						swal("회원가입이 완료되었습니다.");
 						swal({
 							titile:"가입 완료",
 							text:"회원가입을 축하드립니다.",
@@ -67,15 +54,15 @@
 									value:true
 								}
 							}
-						}).then(result){
+						}).then(function(result){
 							if(result){
 								location.href="/home/login";
 							}
-						}
+						});
 					} else {
 						swal("가입이 불가능합니다.");
 						return false;
-					}
+					} 
 				}
 			})
 		}
@@ -117,23 +104,38 @@
 				} else if(!password && password.length < 8){
 					swal("비밀번호를 입력해주세요.");
 					$("#password").focus();
-				} else if(!password_check){
-					swal("비밀번호를 확인해주세요.");
-					$("#password_check").focus();
-				} else if (password != password_check) {
-					swal("올바른 비밀번호를 입력해주세요.");
-					$("#password_check").focus();
-				} else if(!name || name.length < 2){
-					swal("이름을 입력해주세요.");
-					$("#name").focus();
-				} else if(!email){
-					swal("올바른 이메일을 입력해주세요.");
-					$("#email").focus();
-				} else if(!phone || phone.length != 13){
-					swal("올바른 번호를 입력해주세요.");
-					$("#phone").focus();
-				} else{
-					signUp();
+				} else if(password){
+					const reg = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+					if(!reg.test(password)){
+						swal("비밀번호는 8자리 이상, 숫자/대문자/소문자/특수문자를 모두 포함해야 합니다.");
+					} else if(!password_check){
+						swal("비밀번호를 확인해주세요.");
+						$("#password_check").focus();
+					} else if (password != password_check) {
+						swal("비밀번호가 맞지 않습니다.");
+						$("#password_check").focus();
+					} else if(!name || name.length < 2){
+						swal("이름을 입력해주세요.");
+						$("#name").focus();
+					} else if(!email){
+						swal("올바른 이메일을 입력해주세요.");
+						$("#email").focus();
+					} else if(email){
+						const regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
+						if(!regEmail.test(email)){
+							swal("올바른 이메일을 입력해주세요.");
+						} else if(!phone){
+							swal("올바른 휴대폰 번호를 입력해주세요.");
+							$("#phone").focus();
+						} else if(phone){
+							const regPhone = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
+							if(!regPhone.test(phone)){
+							swal("올바른 휴대폰 번호를 입력해주세요.");
+							} else{
+								signUp();
+							}
+						}
+					}
 				}
 			}
 		}

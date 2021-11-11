@@ -18,7 +18,7 @@
 					$("#title").attr('value', data.title);
 					$("#blog").attr('value', data.blog);
 					$("#git").attr('value', data.github);
-					$("#content").html(data.writing);
+					$("#content").html(data.writing.replaceAll('<br />', '\n'));
 				}
 			});
 		}
