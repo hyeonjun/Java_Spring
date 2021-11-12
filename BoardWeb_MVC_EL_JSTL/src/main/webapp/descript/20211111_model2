@@ -1,0 +1,15 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+</head>
+<body>
+
+</body>
+</html>
+
+Model 2
+1. Controller 역할을 하는 Servlet 클래스 생성
+src/main/java => com.encore.view.controller 패키지 => DispatcherServlet 클래스 생성
