@@ -20,7 +20,7 @@ public class ProjectDAO {
 	private final String PROJECT_UPDATE = "update r_project set title=?, start_date=?, end_date=?, content=?, skill=?, issue=?, result=?, github=?, pictures=? where seq=? and p_seq=?";
 	private final String PROJECT_DELETE = "delete from r_project where seq=? and p_seq=?";
 	private final String GET_PROJECT_ONE = "select * from r_project where seq=? and p_seq=?";
-	private final String GET_PROJECT_LIST = "select * from r_project where seq=? and role=?";
+	private final String GET_PROJECT_LIST = "select * from r_project where seq=? and role=? order by p_seq";
 	
 	public ProjectDAO() {
 		// TODO Auto-generated constructor stub

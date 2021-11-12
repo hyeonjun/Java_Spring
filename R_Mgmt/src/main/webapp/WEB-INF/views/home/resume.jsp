@@ -32,7 +32,7 @@
 					$('#email').html(data.email);
 					$('#github').html(data.github);
 					$('#blog').html(data.blog);
-					if(data.wiring == null){
+					if(data.wiriting == null){
 						$('#content').html("글을 작성해주세요.");
 					} else {
 						$('#content').html(data.writing+"<br />");
@@ -244,6 +244,10 @@
 			border-radius:0.25rem;
 			border:0;
 			padding:0.5rem 1rem;
+		}
+		
+		th {
+			vertical-align:top;
 		}	
 	</style>
 	

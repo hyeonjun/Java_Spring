@@ -51,16 +51,16 @@ public class JqueryController {
 	public boolean login(MemberVO vo, HttpSession session){
 		boolean result=false;
 		MemberVO idCheck = memberService.getUserOne(vo);
-		if(idCheck == null){
+		System.out.println("==> login : "+idCheck);
+		if(idCheck==null){
 			result=false;
-		} else if(vo.getUserId().equals(idCheck.getUserId()) & vo.getPassword().equals(idCheck.getPassword())){ // 로그인 
-			session.setAttribute("user", idCheck.getUserId());
-			session.setAttribute("seq", idCheck.getSeq());
-			result=true;
-		} else{ // 비밀번호 틀림
-			result=false;
+		} else{
+			if(vo.getUserId().equals(idCheck.getUserId()) & vo.getPassword().equals(idCheck.getPassword())){ // 로그인 
+				session.setAttribute("user", idCheck.getUserId());
+				session.setAttribute("seq", idCheck.getSeq());
+				result=true;
+			}
 		}
-		System.out.println("Jquery : "+idCheck.toString());
 		return result;
 	} // login end
 	
@@ -69,6 +69,7 @@ public class JqueryController {
 	public boolean signUp(MemberVO vo){
 		boolean result = false;
 		MemberVO idCheck = memberService.getUserOne(vo);
+		System.out.println(idCheck);
 		if(idCheck==null){
 			result = memberService.userJoin(vo);
 		}
@@ -80,6 +81,7 @@ public class JqueryController {
 	public boolean idCheck(MemberVO vo){
 		boolean result = false;
 		MemberVO idCheck = memberService.getUserOne(vo);
+		System.out.println("idChec() : "+idCheck);
 		if(idCheck==null){
 			result=true; // 가능
 		}
