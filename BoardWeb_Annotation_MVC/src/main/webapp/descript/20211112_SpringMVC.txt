@@ -1,0 +1,94 @@
+Spring MVC
+
+1. Spring MVC 구성요소
+1-1. DispatcherServlet : 애플리케이션의 유일한 서블릿
+1-2. HandlerMapping : 요청사항 -> 컨트롤러(요청처리)
+1-3. Controller => ModelAndView : 요청사항을 실제로 처리하는 컨트롤러 (다수 존재 가능)
+								    처리한 결과를 ModelAndView 객체에 담아 DispatcherServlet에게 반환 역할
+								  ModelAndView : 처리 결과 + 결과 화면
+1-4. ViewResolver => View : 결과화면에 대한 최종 경로는 DispatcherServlet에게 반환 역할
+							결과화면의 경로  + 파일명  + 확장자
+
+2. Spring이 제공하는 DispatcherServlet 등록 : web.xml (애플리케이션의 유일한 초기 로딩 파일)
+	<servlet>
+		<servlet-name>요청처리 클래스 이름(일종의 id)</servlet-name>
+		<servlet-class>요청처리 클래스의 풀네임</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>요청처리 클래스 이름(일종의 id)</servlet-name>
+		<url-pattern>웹 주소줄에서 요청할 이름</url-pattern>
+	</servlet-mapping>
+	
+	주의 사항 : DispatcherServlet이 생성될 때, HandlerMapping/Controller/ViewResolver 관련 설정 파일을 자동으로 로드하기 때문에
+			WEB-INF 폴더 내에는 "요청처리 클래스 이름-servlet.xml" 파일이 존재해야 한다.
+	
+	예)
+	<servlet>
+		<servlet-name>action</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>action</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+	
+	WEB-INF 내에는 action-servlet이 존재해야한다.
+	<beans ~~~ >
+		내부에 HandlerMapping/Controller/ViewResolver 관련 설정
+	</beans>
+	
+2-1. HandlerMapping/Controller/ViewResolver 관련 설정 파일의 위치, 파일명을 변경할 경우
+
+	<servlet>
+		<servlet-name>action</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+	    <init-param>
+	    	<param-name>contextConfigLocation</param-name> <== DispatcherServlet 내부 멤버변수명 수정 불가!!!
+	    	<param-value>설정파일의 위치와 파일명.xml</param-value>
+	    </init-param>
+	</servlet>
+
+3. 애플리케이션 전체에 대한 한글 인코딩
+	web.xml 문서의 최상단에 먼저 등록
+	<filter>
+		<filter-name>필터 이름</filter-name>
+    	<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+    	<init-param>
+      		<param-name>encoding</param-name>
+      		<param-value>UTF-8</param-value>
+    	</init-param>
+  	</filter>
+  	<filter-mapping>
+    	<filter-name>필터 이름</filter-name>
+    	<url-pattern>요청사항(경로)</url-pattern>
+  	</filter-mapping>
+
+	예)
+	<filter>
+		<filter-name>characterEncoding</filter-name>
+    	<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+    	<init-param>
+      		<param-name>encoding</param-name>
+      		<param-value>UTF-8</param-value>
+    	</init-param>
+  	</filter>
+  	<filter-mapping>
+    	<filter-name>characterEncoding</filter-name>
+    	<url-pattern>*.do</url-pattern>
+  	</filter-mapping>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	
