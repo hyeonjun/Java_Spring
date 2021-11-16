@@ -16,6 +16,14 @@ public class LoginController {
 	public LoginController() {
 	}
 	
+	@RequestMapping(value="/login.do", method=RequestMethod.GET)
+	public String logView(@ModelAttribute("user") UserVO vo){
+		System.out.println("==> 로그인 화면으로 이동 <==");
+		vo.setId("guest");
+		vo.setPassword("1234");
+		return "login.jsp";
+	}
+	
 	@RequestMapping(value="/login.do", method=RequestMethod.POST)
 	public String login(UserVO vo, UserDAO dao, HttpSession session){
 		System.out.println("==> 로그인 처리 <==");
@@ -29,13 +37,4 @@ public class LoginController {
 			return "login.jsp";
 		}
 	}
-	
-	@RequestMapping(value="/login.do", method=RequestMethod.GET)
-	public String logView(@ModelAttribute("user") UserVO vo){
-		System.out.println("==> 로그인 화면으로 이동 <==");
-		vo.setId("guest");
-		vo.setPassword("1234");
-		return "login.jsp";
-	}
-
 }

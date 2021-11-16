@@ -1,0 +1,108 @@
+Spring MVC annotaion 작성
+1. pom.xml
+
+1-1. 자바 버전 / 스프링 버전 변경
+	<properties>
+		<java-version>1.8</java-version>
+		<org.springframework-version>4.2.4.RELEASE</org.springframework-version>
+		<org.aspectj-version>1.6.10</org.aspectj-version>
+		<org.slf4j-version>1.6.6</org.slf4j-version>
+	</properties>
+
+
+1-2. Spring JDBC / DBC : Connection Pool 설정
+	<!-- Spring JDBC -->
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-jdbc</artifactId>
+		<version>${org.springframework-version}</version>
+	</dependency>
+		
+	<!-- Connection Pool -->
+	<dependency>
+		<groupId>commons-dbcp</groupId>
+		<artifactId>commons-dbcp</artifactId>
+		<version>1.4</version>
+	</dependency>
+
+1-3. AspetJ weaver
+	<dependency>
+		<groupId>org.aspectj</groupId>
+		<artifactId>aspectjweaver</artifactId>
+		<version>1.8.8</version>
+	</dependency>	
+
+2. 프로젝트 관련 설정 : 프로젝트명 선택 후, ALT+ENTER
+2-1. Project Facets : Java 버전 pom.xml 문서와 일치
+					 Runtime => 톰캣 선택 후, Apply
+2-2. Java BuildPath : Libraries 탭 -> JRE -> ApacheTomcat -> Apply -> Ok
+
+===============================================================================
+
+3. web.xml 문서 : 스프링 제공 DispatcherServlet 등록
+3-1. 한글 깨짐 방지
+3-2.
+  <servlet>
+    <servlet-name>action</servlet-name> <!-- action_servlet.xml 로 만들지 않을 때는 init-param 내용을 써야한다. -->
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <init-param>
+    	<param-name>contextConfigLocation</param-name> <!-- edit x -->
+    	<param-value>/WEB-INF/config/presentation-servlet.xml</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>action</servlet-name>
+    <url-pattern>*.do</url-pattern>
+  </servlet-mapping>
+ 
+4. presentation-servlet.xml 은 클래스들에 대한 패키지가 완성된 후 작성하는 것이 편리
+   <context:component-scan base-package="com.encore.view"></context:component-scan>
+		
+===============================================================================
+
+5. src/main/java 에 패키지 및 클래스 작성
+
+5-1. VO 작성   : com.encreo.biz.board  => BoardVO
+			  com.encore.biz.user   => UserVO
+5-2. DAO 작성	: com.encreo.biz.board.impl => BoardDAO
+			  com.encore.biz.user.impl  => UserDAO
+
+5-3. Controller 작성 : com.encore.view.board => BoardController
+					 com.encore.view.user  => UserController(LoginController / LogoutController)
+
+5-4. AOP 필요할 경우 작성 : com.encre.biz.board.common 관련 AOP 클래스들
+
+===============================================================================
+
+6. src/main/resources : DB 관련 파일 작성
+
+6-1. applicationContext.xml : 데이터베이스 관련 설정 파일
+
+6-2. database.properties : 데이터베이스 접근 관련 내용
+
+===============================================================================
+
+7. src/main/webapp : View 관련 파일 생성(jsp, html, css 등)
+
+===============================================================================
+
+8. 요청 사항에 대한 정의 /login.do or /log.can 등
+	/login.do			: 로그인 화면 요청(GET) / 로그인 인증 처리(POST)
+	/logout.do			: 로그아웃 요청
+	/getBoardList.do	: 글 목록 요청(insert / update delete / 검색 요청 후에도 동일)
+	/getBoard.do		: 글 상세보기 요청(목록에서 제목 클릭 시 : getBoardList.jsp)
+	/insertBoard.do		: 글 등록 (insertBoard.jsp / getBoardList.jsp)
+	/updateBoard.do		: 글 수정 (getBoard.jsp)
+	/deleteBoard.do		: 글 삭제 (getBoard.jsp)
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		

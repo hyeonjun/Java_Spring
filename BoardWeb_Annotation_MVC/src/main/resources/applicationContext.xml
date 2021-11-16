@@ -12,6 +12,8 @@
 	
 	<context:component-scan base-package="com.encore.biz"></context:component-scan>
 	
+	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+	
 	<!-- Spring JDBC Config 2 -->
 	<context:property-placeholder location="classpath:config/database.properties"/> <!-- 파일 읽음 -->
 	

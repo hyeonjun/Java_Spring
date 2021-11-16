@@ -28,7 +28,7 @@
 				</tr>
 				<tr>
 					<td>내용</td>
-					<td><input type="text" name="content" value="${board.content}" /></td>
+					<td><textarea name="content" cols="40" rows="10">${board.content}</textarea></td>
 				</tr>
 				<tr>
 					<td>등록일</td>
