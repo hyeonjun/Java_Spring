@@ -1,0 +1,6 @@
+eclipse.preferences.version=1
+encoding//src/main/java/com/freeflux/biz/board/BoardVO.java=UTF-8
+encoding//src/main/java/com/freeflux/biz/board/impl/BoardDAO.java=UTF-8
+encoding//src/main/java/com/freeflux/biz/board/impl/BoardDAOSpring.java=UTF-8
+encoding//src/main/java/com/freeflux/view/board/BoardController.java=UTF-8
+encoding//src/main/java/com/freeflux/view/user/LoginController.java=UTF-8

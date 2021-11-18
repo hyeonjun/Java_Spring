@@ -1,0 +1,139 @@
+request(요청) => DispatcherServlet => Controller  (=> DAO) => JDBC => Oracle
+
+request(요청) => DispatcherServlet => Controller => BizService (=> DAO) => JDBC => Oracle
+=> 통합(변경) 방법 : 인터페이스의 다형성을 이용
+
+위와 같이 변경하는 이유
+1. Controller와 DAO 간의 결합도를 낮추기 위해(객체 간의 의존성을 느슨하게)
+
+2. AOP(횡단 관심) : AOP에 해당하는 어드바이스(Advice) 들이 동작을 하기 위해서는 반드시 비즈니스 메서드가 호출되어야 한다.
+
+   => 따라서 Controller가 매개변수로 DAO 객체를 자동 주입받아서
+        DAO 객체의 메서드를 직접 호출하는 상태에서는 AOP의 어떤 Advice들도 동작할 수 없다.
+
+Servlet Container 구성요소 : DispatcherServlet
+			설정 -> presentation-layer.xml
+Spring Container 구성요소 : Controller
+			Service
+
+================================================================================
+
+비즈니스 컴포넌트
+1. 2-Layerd 아키텍처 (두 개의 레이어를 이용한 프로젝트 개발)
+
+	Presentation Layer (MVC 구조)
+	
+		presentation-layer.xml
+				|
+		DispatcherServlet =====> Controller
+				|
+			View(JSP)
+	
+	Controller <======> ServiceImpl
+	
+	Business Layer
+	
+		Service(interface)
+				|
+			ServiceImpl
+				|
+			---------
+			|       |
+		   DAO      VO
+
+=================================================================================
+
+web.xml -> presentation-layer.xml -> applicationContext.xml
+web.xml -> applicationContext.xml -> presentation-layer.xml 로 변경
+
+1. web.xml
+
+	1-1. 인코딩 설정
+		 <filter>
+		 	<filter-name>필터클래스 이름</filter-name>
+		 	<filter-class>스프링 제공 CharacterEncodingFilter</filter-class>
+		 	<init-param>
+		 		<param-name>CharacterEncodingFilter 멤버 변수명1(예 : forceEncoding)</param-name>
+		 		<param-value>값(에 : true/false)</param-value>
+		 	</init-param>
+		 	<init-param>
+		 		<param-name>CharacterEncodingFilter 멤버 변수명2(예 : encoding)</param-name>
+		 		<param-value>값(에 : UTF-8/EUC-KR)</param-value>
+		 	</init-param>
+		 </filter>
+		 <filter-mapping>
+		 	<filter-name>필터클래스 이름</filter-name>
+		 	<url-pattern>요청사항 공통 부분(*.do)</url-pattern>
+		 </filter-mapping>
+		
+	
+	1-2. applicationContext.xml 추가(Service / Repository / AOP / Transaction 관련 설정 파일)
+		 <context-param>
+		 	<param-name>contextConfigLocation</param-name> 
+			<param-value>classPath:설정 파일 이름.xml(예 : classPath:applicationContext.xml)</param-value>
+		 </context-param>
+		 <listener>
+		 	<listener-class>스프링 제공 contextLoaderListener</listener-class>
+		 </listener>
+	
+		
+	1-3. 스프링 DispatcherServlet 등록
+		 <servlet>
+		 	<servlet-name>서블릿 클래스 이름</servlet-name>
+		 	<servlet-class스프링 제공 DispatcherServlet</servlet-class>
+		 	<init-param>
+		 		<param-name>DispatcherServlet 멤버변수 명(예 : contextConfigLocation)</param-name>
+		 		<param-value>값(예:/WEB-INF/config/서블릿 설정파일(presentation-layer).xml)</param-value>
+		 	</init-param>
+		 </servlet>
+		 <servlet-mapping>
+		 	<servlet-name>서블릿 클래스 이름</servlet-name>
+		 	<url-pattern>요청사항 공통 부분(*.do)</url-pattern>		 
+		 </servlet-mapping>
+		 
+========================================================================================
+	
+<context-param>
+	<param-name>contextConfigLocation</param-name>
+	<param-value>classPath:applicationContext.xml</param-value>
+</context-param>
+<listener>
+	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+</listener>	
+
+classPath:applicationContext.xml 로 설정할 경우 applicationContext.xml의 위치는 src/main/resources에 존재
+
+만약 WEB-INF 내의 spring 폴더에 존재할 경우 /WEB-INF/spring/applicationContext.xml 로 설정해야한다.
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
