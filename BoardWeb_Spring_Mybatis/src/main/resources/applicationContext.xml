@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
+
+	<context:component-scan base-package="com.freeflux.biz"></context:component-scan>
+	
+	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+	
+	<!-- DataSource Configuration -->
+	<context:property-placeholder location="classpath:config/database.properties"/>
+	
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property value="${jdbc.driver}" name="driverClassName"/>
+		<property value="${jdbc.url}" name="url"/>
+		<property value="${jdbc.username}" name="username"/>
+		<property value="${jdbc.password}" name="password"/>
+	</bean>
+	
+	<!-- Spring JdbcTemplate Configuration  -->
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	
+	<!-- Spring + mybatis Way 2 : SqlSessionFactoryBean Registration -->
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionFactoryBean" >
+		<property name="configLocation" value="classpath:sql-map-config.xml" />
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	
+	<bean class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSession"></constructor-arg>
+	</bean>
+	
+	<!-- Transaction Registration -->
+	<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	
+	<!-- Transaction Configuration -->
+	<tx:advice id="txAdvice" transaction-manager="txManager">
+		<tx:attributes>
+			<tx:method name="get*" read-only="true"/>
+			<tx:method name="*"/>
+		</tx:attributes>
+	</tx:advice>
+	
+	<!-- Transaction Advisor Configuration -->
+	<aop:config>
+		<aop:pointcut expression="execution(* com.freeflux.biz..*Impl.*(..))" id="txPointcut"/>
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut"/>
+	</aop:config>
+	
+</beans>
+
+
+
+<!-- Spring + mybatis Way 1 : SqlSessionFactoryBean Registration 
+	<bean id="sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean" >
+		<property name="dataSource" ref="dataSource"/>
+		<property name="configLocation" value="classpath:sql-map-config.xml" />
+	</bean>
+-->
+
+<!-- DataSource Configuration 
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property>
+		<property name="url" value="jdbc:oracle:thin:@127.0.0.1:1521:XE"></property>
+		<property name="username" value="freeflux"></property>
+		<property name="password" value="free"></property>
+	</bean>
+	
+	Transaction Registration
+	<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+-->
+
+<!-- DataSource Configuration : "org.springframework.jdbc.core.JdbcTemplate"
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property>
+		<property name="url" value="jdbc:oracle:thin:@127.0.0.1:1521:XE"></property>
+		<property name="username" value="freeflux"></property>
+		<property name="password" value="free"></property>
+	</bean>
+	
+	Spring JdbcTemplate Configuration
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+ -->
+
+<!-- DataSource Configuration : database.properties 
+	<context:property-placeholder location="classpath:config/database.properties"/>
+	
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driver}"></property>
+		<property name="url" value="${jdbc.url}"></property>
+		<property name="username" value="${jdbc.username}"></property>
+		<property name="password" value="${jdbc.password}"></property>
+	</bean>
+-->
+
+<!-- DataSource Configuration
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property>
+		<property name="url" value="jdbc:oracle:thin:@127.0.0.1:1521:XE"></property>
+		<property name="username" value="freeflux"></property>
+		<property name="password" value="free"></property>
+	</bean>
+ -->
+ 
+ 
+<!-- Annotation AOP
+
+<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+ -->
+
+<!-- ProceedingJoinPoint : AroundAdvice
+
+	<bean id="around" class="com.freeflux.biz.board.common.AroundAdvice"></bean>
+	
+	<aop:config>
+		<aop:pointcut expression="execution(* com.freeflux.biz..*Impl.*(..))" id="allPointcut"/>
+		
+		<aop:aspect ref="around">
+			<aop:around method="aroundLog" pointcut-ref="allPointcut" />
+		</aop:aspect>
+
+	</aop:config>
+ -->
+
+<!-- JoinPoint : AfterThrowingAdvice
+
+	<bean id="afterThrowing" class="com.freeflux.biz.board.common.AfterThrowingAdvice"></bean>
+	
+	<aop:config>
+		<aop:pointcut expression="execution(* com.freeflux.biz..*Impl.*(..))" id="allPointcut"/>
+		
+		<aop:aspect ref="afterThrowing">
+			<aop:after-throwing method="exceptionLog" pointcut-ref="allPointcut" throwing="exceptObj"/>
+		</aop:aspect>
+	</aop:config>
+ -->
+
+
+<!-- JoinPoint : AfterReturningAdvice
+
+	<bean id="afterReturning" class="com.freeflux.biz.board.common.AfterReturningAdvice"></bean>
+	
+	<aop:config>
+		<aop:pointcut expression="execution(* com.freeflux.biz..*Impl.get*(..))" id="getPointcut"/>
+		
+		<aop:aspect ref="afterReturning">
+			<aop:after-returning method="afterLog" pointcut-ref="getPointcut" returning="returnObj"/>
+		</aop:aspect>
+	</aop:config>
+ -->
+
+<!-- JoinPoint : BeforeAdvice
+
+	<bean id="before" class="com.freeflux.biz.board.common.BeforeAdvice"></bean>
+	
+	<aop:config>
+		<aop:pointcut expression="execution(* com.freeflux.biz..*Impl.*(..))" id="allPointcut"/>
+		
+		<aop:aspect ref="before">
+			<aop:before method="beforeLog" pointcut-ref="allPointcut" />
+		</aop:aspect>
+	</aop:config>
+ -->
+
+<!-- AroundAdvice
+
+	<bean id="around" class="com.freeflux.biz.board.common.AroundAdvice"></bean>
+	
+	<aop:config>
+		<aop:pointcut expression="execution(* com.freeflux.biz..*Impl.*(..))" id="allPointcut"/>
+		
+		<aop:aspect ref="around">
+			<aop:around method="aroundLog" pointcut-ref="allPointcut" />
+		</aop:aspect>
+
+	</aop:config>
+ -->
+
+<!-- AfterAdvice
+
+	<bean id="afterThrowing" class="com.freeflux.biz.board.common.AfterThrowingAdvice"></bean>
+	<bean id="afterAdvice" class="com.freeflux.biz.board.common.AfterAdvice"></bean>
+	
+	<aop:config>
+		<aop:pointcut expression="execution(* com.freeflux.biz..*Impl.*(..))" id="allPointcut"/>
+		
+		<aop:aspect ref="afterThrowing">
+			<aop:after-throwing method="exceptionLog" pointcut-ref="allPointcut" />
+		</aop:aspect>
+		
+		<aop:aspect ref="afterAdvice">
+			<aop:after method="finallyLog" pointcut-ref="allPointcut"/>
+		</aop:aspect>
+	</aop:config>
+ -->
+
+<!-- AfterThrowingAdvice
+
+	<bean id="afterThrowing" class="com.freeflux.biz.board.common.AfterThrowingAdvice"></bean>
+	
+	<aop:config>
+		<aop:pointcut expression="execution(* com.freeflux.biz..*Impl.*(..))" id="allPointcut"/>
+		
+		<aop:aspect ref="afterThrowing">
+			<aop:after-throwing method="exceptionLog" pointcut-ref="allPointcut" />
+		</aop:aspect>
+	</aop:config>
+ -->
+
+<!-- AfterReturningAdvice
+
+	<bean id="afterReturning" class="com.freeflux.biz.board.common.AfterReturningAdvice"></bean>
+	
+	<aop:config>
+		<aop:pointcut expression="execution(* com.freeflux.biz..*Impl.get*(..))" id="getPointcut"/>
+		
+		<aop:aspect ref="afterReturning">
+			<aop:after-returning method="afterLog" pointcut-ref="getPointcut" />
+		</aop:aspect>
+	</aop:config>
+ -->
+
+<!-- BeforeAdvice
+
+	<bean id="before" class="com.freeflux.biz.board.common.BeforeAdvice"></bean>
+	
+	<aop:config>
+		<aop:pointcut expression="execution(* com.freeflux.biz..*Impl.*(..))" id="allPointcut"/>
+		
+		<aop:aspect ref="before">
+			<aop:before method="beforeLog" pointcut-ref="allPointcut" />
+		</aop:aspect>
+	</aop:config>
+ -->
+
+<!-- allPointcut / getPointcut
+
+	<bean id="log" class="com.freeflux.biz.board.common.LogAdvice"></bean>
+	
+	<aop:config>
+		<aop:pointcut expression="execution(* com.freeflux.biz..*Impl.*(..))" id="allPointcut"/>
+		<aop:pointcut expression="execution(* com.freeflux.biz..*Impl.get*(..))" id="getPointcut"/>
+		<aop:aspect ref="log">
+			<aop:before method="printLog" pointcut-ref="getPointcut" />
+		</aop:aspect>
+	</aop:config>
+ -->
+
+<!-- Log4JAdvice
+
+	<bean id="log" class="com.freeflux.biz.board.common.Log4JAdvice"></bean>
+	
+	<aop:config>
+		<aop:pointcut expression="execution(* com.freeflux.biz..*Impl.*(..))" id="allPointcut"/>
+		<aop:aspect ref="log">
+			<aop:before method="printLogging" pointcut-ref="allPointcut" />
+		</aop:aspect>
+	</aop:config>
+ -->
+
+<!-- LogigAdvice
+
+	<bean id="log" class="com.freeflux.biz.board.common.LogAdvice"></bean>
+	
+	<aop:config>
+		<aop:pointcut expression="execution(* com.freeflux.biz..*Impl.*(..))" id="allPointcut"/>
+		<aop:aspect ref="log">
+			<aop:before method="printLog" pointcut-ref="allPointcut" />
+		</aop:aspect>
+	</aop:config>
+ -->
+
+<!-- 
+	<bean id="tv" class="di.setter.SamsungTV" p:speaker-ref="sony" p:price="2700000">
+	</bean>
+	
+	<bean id="sony" class="di.setter.SonySpeaker"></bean>
+	
+	<bean id="apple" class="di.setter.AppleSpeaker"></bean>
+ -->
+ 
+ <!-- List Mapping
+ 
+ 	<bean id="collectionBean" class="com.collection.mapping.CollectionBean">
+		<property name="addressList">
+			<list>
+				<value>서울시 강남구 역삼동</value>
+				<value>경기도 고양시 일산동구</value>
+			</list>
+		</property>
+	</bean>
+	
+-->
+  
+  
+<!-- Set Mapping
+
+	<bean id="collectionBean" class="com.collection.mapping.CollectionBean">
+		<property name="addressList">
+			<set value-type="java.lang.String">
+				<value>서울시 강남구 역삼동</value>
+				<value>경기도 고양시 일산동구</value>
+				<value>제주도 서귀포시 서흥동</value>
+				<value>서울시 강남구 역삼동</value>
+				<value>경기도 고양시 일산동구</value>
+				<value>제주도 서귀포시 서흥동</value>
+			</set>
+		</property>
+	</bean>   	
+
+-->

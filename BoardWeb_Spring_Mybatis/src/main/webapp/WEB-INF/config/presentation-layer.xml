@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+
+	<!-- component scan Registration : Controller's -->
+	<context:component-scan base-package="com.freeflux.view"></context:component-scan>
+
+	<!-- File Upload Configuration : CommonsMultipartResolver -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="100000"></property>
+	</bean>
+	
+	<!-- Data Convertter Registration : HttpMessageConvertter -->
+	<mvc:annotation-driven></mvc:annotation-driven>
+	
+	<!-- Locale Configuration--> 
+	<!-- MessageSource Registration -->
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>message.messageSource</value>
+				<!-- 
+				<value>message.messageSource_en.properties</value>
+				<value>message.messageSource_ko.properties</value>
+				 -->
+			</list>
+		</property>
+	</bean>
+	
+	<!-- LocaleResolver Registration -->
+	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver"></bean>
+	
+	<!-- LocaleChangeInterceptor Registration -->
+	<mvc:interceptors>
+		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+			<property name="paramName" value="lang"></property>
+		</bean>
+	</mvc:interceptors>
+</beans>
+
+
+	<!-- Exception Batch Process : @ControllerAdvice & @ExceptionHandler
+	<mvc:annotation-driven></mvc:annotation-driven>
+	-->
+	
+	<!-- XML Exception Process 
+	<bean id="exceptionesolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="exceptionMappings">
+			<props>
+				<prop key="java.lang.ArithmeticException">
+					common/arithmeticError.jsp
+				</prop>
+				<prop key="java.lang.NullPointerException">
+					common/nullPointerError.jsp
+				</prop>
+			</props>
+		</property>
+		<property name="defaultErrorView" value="common/error.jsp"></property>
+	</bean>
+	-->
