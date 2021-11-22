@@ -2,36 +2,40 @@ package com.freeflux.biz.board;
 
 import java.util.Date;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlTransient;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.springframework.web.multipart.MultipartFile;
 
 
-/** VO : Value Object **/
-@XmlAccessorType(XmlAccessType.FIELD)
+/** Entity Class : Value Object **/
+@Entity
+@Table(name="BOARD")
 public class BoardVO {
-
-	@XmlAttribute
+	
+	@Id
+	@GeneratedValue
 	private int seq;
 	private String title;
 	private String writer;
 	private String content;
+	
+	@Temporal(TemporalType.DATE)
 	private Date regDate;
 	private int cnt;
 	
-	/** 여기부터 BoardController에서 @RequestParam 사용 **/
-	@XmlTransient
+	@Transient
 	private String searchCondition;
 	
-	@XmlTransient
+	@Transient
 	private String searchKeyword;
 	
-	
-	/** 파일 업로드 변수 추가 **/
-	@XmlTransient
+	@Transient
 	private MultipartFile uploadFile;
 
 	public BoardVO() {

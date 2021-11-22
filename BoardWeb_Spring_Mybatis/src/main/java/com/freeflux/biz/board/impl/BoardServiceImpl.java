@@ -13,16 +13,14 @@ import com.freeflux.biz.board.common.Log4JAdvice;
 public class BoardServiceImpl implements BoardService {
 	
 	@Autowired
-	private BoardDAOMybatis boardDAO;
+	private BoardDAOJPA boardDAO;
 
 	public BoardServiceImpl() {
 	}
 
 	@Override
 	public void insertBoard(BoardVO vo) {
-		// Transaction Test
-		this.boardDAO.insertBoard(vo);	// seq �� 100�� ���� : ���� ���̺� �ش� ���� ���ٰ� ����
-//		this.boardDAO.insertBoard(vo);	// seq �� 100�� ���� : primary key ������ ���� �߻�
+		this.boardDAO.insertBoard(vo);
 	}
 
 	@Override
