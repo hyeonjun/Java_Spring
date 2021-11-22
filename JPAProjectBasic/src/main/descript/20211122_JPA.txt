@@ -1,0 +1,15 @@
+JPA 관련 Annotation
+- @Entity : @Entity가 설정된 클래스를 엔티티 클래스라 하며, @Entity가 붙은 클래스는 테이블과 매핑된다.
+- @Table : 엔티티와 관련된 테이블을 매핑. name 속성을 사용하여 BOARD 테이블과 매핑했는데 생략하면 클래스 이름이 테이블 이름이 된다.
+- @Id : 엔티티 클래스의 필수 어노테이션으로, 특정 변수를 테이블의 기본키와 매핑. @Id가 없는 엔티티 클래스는 JPA가 처리하지 못함
+- @GeneratedValue : @Id가 선언된 필드에 기본키를 자동으로 생성하여 할당할 때 사용. 다양한 옵션이 있음.
+ 				    @GeneratedValue만 사용하면 데이터베이스에 따라 자동으로 결정. H2는 시퀀스를 사용하여 처리함.
+- @Temporal : 날짜 타입 변수에 선언하여 날짜 타입을 매핑할 때 사용. TemporalType의 DATE, TIME, TIMESTAMP 중 하나 선택가능.
+
+EntityManager 객체의 CRUD 기능 메소드
+- persist(Object entity) : 엔티티를 영속화한다(INSERT)
+- merge(Object entity) : 준영속 상태의 엔티티를 영속화한다(UPDATE)
+- remove(Object entity) : 영속 상태의 엔티티를 제거한다(DELETE)
+- find(Class<T> entityClass, Object primaryKey) : 하나의 엔티티를 검색한다(SELECT ONE)
+- createQuery(String qlString, Class<T> resultClass) : JPQL에 해당하는 엔티티 목록을 검색한다(SELECT LIST)
+
